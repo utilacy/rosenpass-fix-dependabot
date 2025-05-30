@@ -77,14 +77,9 @@ jobs:
         run: git diff --exit-code || echo "Changes detected, committing..."
       - name: Commit and push changes for dependabot PRs
         if: success() && github.actor == 'dependabot[bot]'
-        run: |
-          git fetch origin ${{ github.head_ref }}
-          git switch ${{ github.head_ref }}
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions@github.com"
-          git add supply-chain/*
-          git commit -m "Regenerate cargo vet exemptions"
-          git push origin ${{ github.head_ref }}
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Regenerate cargo vet exemptions
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Invoke cargo-vet
