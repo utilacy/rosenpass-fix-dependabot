@@ -20,22 +20,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cache/cargo-supply-chain/
-          key: cargo-supply-chain-cache
+      #- uses: actions/cache@v4
+      #  with:
+      #    path: |
+      #      ~/.cargo/bin/
+      #      ~/.cargo/registry/index/
+      #      ~/.cargo/registry/cache/
+      #      ~/.cache/cargo-supply-chain/
+      #    key: cargo-supply-chain-cache
       - name: Install nightly toolchain # Since we are running/compiling cargo-vet, we should rely on the stable toolchain.
         run: |
           rustup toolchain install nightly
           rustup default nightly
-      - uses: actions/cache@v4
-        with:
-          path: ${{ runner.tool_cache }}/cargo-supply-chain
-          key: cargo-supply-chain-bin
+      #- uses: actions/cache@v4
+      #  with:
+      #    path: ${{ runner.tool_cache }}/cargo-supply-chain
+      #    key: cargo-supply-chain-bin
       - name: Add the tool cache directory to the search path
         run: echo "${{ runner.tool_cache }}/cargo-supply-chain/bin" >> $GITHUB_PATH
       - name: Ensure that the tool cache is populated with the cargo-supply-chain binary
@@ -54,21 +54,21 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-          key: cargo-vet-cache
+      #- uses: actions/cache@v4
+      #  with:
+      #    path: |
+      #      ~/.cargo/bin/
+      #      ~/.cargo/registry/index/
+      #      ~/.cargo/registry/cache/
+      #    key: cargo-vet-cache
       - name: Install nightly toolchain # Since we are running/compiling cargo-vet, we should rely on the stable toolchain.
         run: |
           rustup toolchain install nightly
           rustup default nightly
-      - uses: actions/cache@v4
-        with:
-          path: ${{ runner.tool_cache }}/cargo-vet
-          key: cargo-vet-bin
+      #- uses: actions/cache@v4
+      #  with:
+      #    path: ${{ runner.tool_cache }}/cargo-vet
+      #    key: cargo-vet-bin
       - name: Add the tool cache directory to the search path
         run: echo "${{ runner.tool_cache }}/cargo-vet/bin" >> $GITHUB_PATH
       - name: Ensure that the tool cache is populated with the cargo-vet binary
