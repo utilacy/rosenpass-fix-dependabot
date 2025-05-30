@@ -31,7 +31,7 @@ jobs:
       - name: Install nightly toolchain # Since we are running/compiling cargo-vet, we should rely on the stable toolchain.
         run: |
           rustup toolchain install nightly
-          rustup default nightly
+          rustup override nightly
       #- uses: actions/cache@v4
       #  with:
       #    path: ${{ runner.tool_cache }}/cargo-supply-chain
@@ -64,7 +64,7 @@ jobs:
       - name: Install nightly toolchain # Since we are running/compiling cargo-vet, we should rely on the stable toolchain.
         run: |
           rustup toolchain install nightly
-          rustup default nightly
+          rustup override nightly
       #- uses: actions/cache@v4
       #  with:
       #    path: ${{ runner.tool_cache }}/cargo-vet
