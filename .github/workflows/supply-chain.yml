@@ -75,8 +75,11 @@ jobs:
       - name: Check for changes in case of dependabot PR
         if: github.actor == 'dependabot[bot]' # Run only for Dependabot PRs
         run: git diff --exit-code || echo "Changes detected, committing..."
+      - name: Write current time to file
+        run: |
+          date > current_time.txt
       - name: Commit and push changes for dependabot PRs
-        if: success() && github.actor == 'dependabot[bot]'
+        # if: success() && github.actor == 'dependabot[bot]'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Regenerate cargo vet exemptions
