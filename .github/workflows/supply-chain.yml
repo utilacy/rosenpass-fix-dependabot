@@ -28,6 +28,10 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cache/cargo-supply-chain/
           key: cargo-supply-chain-cache
+      - name: Install nightly toolchain # Since we are running/compiling cargo-vet, we should rely on the stable toolchain.
+        run: |
+          rustup toolchain install nightly
+          rustup default nightly
       - uses: actions/cache@v4
         with:
           path: ${{ runner.tool_cache }}/cargo-supply-chain
@@ -57,10 +61,10 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
           key: cargo-vet-cache
-      - name: Install stable toolchain # Since we are running/compiling cargo-vet, we should rely on the stable toolchain.
+      - name: Install nightly toolchain # Since we are running/compiling cargo-vet, we should rely on the stable toolchain.
         run: |
-          rustup toolchain install stable
-          rustup default stable
+          rustup toolchain install nightly
+          rustup default nightly
       - uses: actions/cache@v4
         with:
           path: ${{ runner.tool_cache }}/cargo-vet
