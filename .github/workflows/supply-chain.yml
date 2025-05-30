@@ -54,6 +54,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT }}
       - uses: actions/cache@v4
         with:
           path: |
@@ -74,20 +76,20 @@ jobs:
       - name: Ensure that the tool cache is populated with the cargo-vet binary
         run: cargo install --root ${{ runner.tool_cache }}/cargo-vet cargo-vet
       - name: Regenerate vet exemptions for dependabot PRs
-        if: github.actor == 'dependabot[bot]' # Run only for Dependabot PRs
+        #if: github.actor == 'dependabot[bot]' # Run only for Dependabot PRs
         run: cargo vet regenerate exemptions
       - name: Check for changes in case of dependabot PR
-        if: github.actor == 'dependabot[bot]' # Run only for Dependabot PRs
+        #if: github.actor == 'dependabot[bot]' # Run only for Dependabot PRs
         run: git diff --exit-code || echo "Changes detected, committing..."
-      - name: Write current time to file
-        run: |
-          date > current_time.txt
+      #- name: Write current time to file
+      #  run: |
+      #    date > current_time.txt
       - name: Commit and push changes for dependabot PRs
         # if: success() && github.actor == 'dependabot[bot]'
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Regenerate cargo vet exemptions
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
       - name: Invoke cargo-vet
         run: cargo vet --locked
