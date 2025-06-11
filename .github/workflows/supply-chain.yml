@@ -77,12 +77,15 @@ jobs:
         run: cargo install --root ${{ runner.tool_cache }}/cargo-vet cargo-vet
       - name: Check if last commit was by Dependabot
         run: |
+          git fetch origin ${{ github.head_ref }}
+          git switch ${{ github.head_ref }}
           COMMIT_AUTHOR=$(gh api repos/${{ github.repository }}/commits/${{ github.sha }} --jq .author.login)
-          if [ "$COMMIT_AUTHOR" = "dependabot[bot]" ]; then
+          echo $COMMIT_AUTHOR
+          if [[ "$COMMIT_AUTHOR" == "dependabot[bot]" ]]; then
             echo "The last commit was made by dependabot"
             IS_DEPENDABOT=true
           else
-            "The last commit was not made by dependabot"
+            echo "The last commit was not made by dependabot"
             IS_DEPENDABOT=false
           fi
           echo "IS_DEPENDABOT=$IS_DEPENDABOT" >> $GITHUB_ENV
@@ -92,6 +95,7 @@ jobs:
         run: |
           # Get commit message
           COMMIT_MESSAGE=$(git log -1 --pretty=format:"%s")
+          echo $COMMIT_MESSAGE
           if [[ "$COMMIT_MESSAGE" == *"--regenerate-exemptions" ]]; then
             echo "The last commit message ends in --regenerate-exemptions"
             REGEN_EXEMP=true
@@ -101,13 +105,16 @@ jobs:
           fi
           echo "REGEN_EXEMP=$REGEN_EXEMP" >> $GITHUB_ENV
       - name: Regenerate vet exemptions for dependabot PRs
-        if: github.actor == 'dependabot[bot]' && (env.IS_DEPENDABOT == 'true' || env.REGEN_EXEMP=='true')   # Run only for Dependabot PRs or if specifically requested
+        #if: github.actor == 'dependabot[bot]' && (env.IS_DEPENDABOT == 'true' || env.REGEN_EXEMP=='true')   # Run only for Dependabot PRs or if specifically requested
+        if: (env.IS_DEPENDABOT == 'true' || env.REGEN_EXEMP=='true')   # Run only for Dependabot PRs or if specifically requested
         run: cargo vet regenerate exemptions
       - name: Check for changes in case of dependabot PR
-        if: github.actor == 'dependabot[bot]' && (env.IS_DEPENDABOT == 'true' || env.REGEN_EXEMP=='true') # Run only for Dependabot PRs or if specifically requested
+        # if: github.actor == 'dependabot[bot]' && (env.IS_DEPENDABOT == 'true' || env.REGEN_EXEMP=='true') # Run only for Dependabot PRs or if specifically requested
+        if: env.IS_DEPENDABOT == 'true' || env.REGEN_EXEMP=='true'   # Run only for Dependabot PRs or if specifically requested
         run: git diff --exit-code || echo "Changes detected, committing..."
       - name: Commit and push changes for dependabot PRs
-        if: success() && github.actor == 'dependabot[bot]' && (env.IS_DEPENDABOT == 'true' || env.REGEN_EXEMP=='true')
+        if: env.IS_DEPENDABOT == 'true' || env.REGEN_EXEMP=='true'
+        # if: success() && github.actor == 'dependabot[bot]' && (env.IS_DEPENDABOT == 'true' || env.REGEN_EXEMP=='true')
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Regenerate cargo vet exemptions
