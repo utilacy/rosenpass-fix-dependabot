@@ -85,10 +85,9 @@ jobs:
             "The last commit was not made by dependabot"
             IS_DEPENDABOT=false
           fi
-
           echo "IS_DEPENDABOT=$IS_DEPENDABOT" >> $GITHUB_ENV
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Check if the last commit's message ends in "--regenerate-exemptions"
         run: |
           # Get commit message
@@ -100,16 +99,15 @@ jobs:
             echo "The last commit message does not end in --regenerate-exemptions"
             REGEN_EXEMP=false
           fi
-
           echo "REGEN_EXEMP=$REGEN_EXEMP" >> $GITHUB_ENV
       - name: Regenerate vet exemptions for dependabot PRs
-        if: github.actor == 'dependabot[bot]' && (env.IS_DEPENDABOT == 'true' || env.REGEN_EXEMP=='true')   # Run only for Dependabot PRs
+        if: github.actor == 'dependabot[bot]' && (env.IS_DEPENDABOT == 'true' || env.REGEN_EXEMP=='true')   # Run only for Dependabot PRs or if specifically requested
         run: cargo vet regenerate exemptions
       - name: Check for changes in case of dependabot PR
-        if: github.actor == 'dependabot[bot]' && (env.IS_DEPENDABOT == 'true' || env.REGEN_EXEMP=='true') # Run only for Dependabot PRs
+        if: github.actor == 'dependabot[bot]' && (env.IS_DEPENDABOT == 'true' || env.REGEN_EXEMP=='true') # Run only for Dependabot PRs or if specifically requested
         run: git diff --exit-code || echo "Changes detected, committing..."
       - name: Commit and push changes for dependabot PRs
-         if: success() && github.actor == 'dependabot[bot]' && (env.IS_DEPENDABOT == 'true' || env.REGEN_EXEMP=='true')
+        if: success() && github.actor == 'dependabot[bot]' && (env.IS_DEPENDABOT == 'true' || env.REGEN_EXEMP=='true')
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Regenerate cargo vet exemptions
