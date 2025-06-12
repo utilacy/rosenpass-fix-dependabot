@@ -118,6 +118,9 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Regenerate cargo vet exemptions
+          commit_user_name: rosenpass-ci-bot[bot]
+          commit_user_email: noreply@rosenpass.eu
+          commt_author: Rosenpass CI Bot <noreply@rosenpass.eu>
         env:
           GITHUB_TOKEN: ${{ secrets.CI_BOT_PAT }}
       - name: Invoke cargo-vet
