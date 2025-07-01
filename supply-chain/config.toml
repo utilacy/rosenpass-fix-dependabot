@@ -257,10 +257,6 @@ criteria = "safe-to-deploy"
 version = "0.10.2"
 criteria = "safe-to-deploy"
 
-[[exemptions.fastrand]]
-version = "2.3.0"
-criteria = "safe-to-deploy"
-
 [[exemptions.findshlibs]]
 version = "0.10.2"
 criteria = "safe-to-run"
@@ -283,10 +279,6 @@ criteria = "safe-to-deploy"
 
 [[exemptions.getrandom]]
 version = "0.2.15"
-criteria = "safe-to-deploy"
-
-[[exemptions.gimli]]
-version = "0.31.1"
 criteria = "safe-to-deploy"
 
 [[exemptions.hash32]]
@@ -529,10 +521,6 @@ criteria = "safe-to-deploy"
 version = "1.0.15"
 criteria = "safe-to-deploy"
 
-[[exemptions.pin-project-lite]]
-version = "0.2.16"
-criteria = "safe-to-deploy"
-
 [[exemptions.pkg-config]]
 version = "0.3.31"
 criteria = "safe-to-deploy"
@@ -579,14 +567,6 @@ criteria = "safe-to-deploy"
 
 [[exemptions.rand]]
 version = "0.9.0"
-criteria = "safe-to-deploy"
-
-[[exemptions.rand_chacha]]
-version = "0.9.0"
-criteria = "safe-to-deploy"
-
-[[exemptions.rand_core]]
-version = "0.9.3"
 criteria = "safe-to-deploy"
 
 [[exemptions.redox_syscall]]
@@ -731,10 +711,6 @@ criteria = "safe-to-deploy"
 
 [[exemptions.unicode-ident]]
 version = "1.0.17"
-criteria = "safe-to-deploy"
-
-[[exemptions.utf8parse]]
-version = "0.2.2"
 criteria = "safe-to-deploy"
 
 [[exemptions.uuid]]
