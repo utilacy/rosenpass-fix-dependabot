@@ -257,10 +257,6 @@ criteria = "safe-to-deploy"
 version = "0.10.2"
 criteria = "safe-to-deploy"
 
-[[exemptions.fastrand]]
-version = "2.3.0"
-criteria = "safe-to-deploy"
-
 [[exemptions.findshlibs]]
 version = "0.10.2"
 criteria = "safe-to-run"
@@ -283,10 +279,6 @@ criteria = "safe-to-deploy"
 
 [[exemptions.getrandom]]
 version = "0.2.15"
-criteria = "safe-to-deploy"
-
-[[exemptions.gimli]]
-version = "0.31.1"
 criteria = "safe-to-deploy"
 
 [[exemptions.hash32]]
@@ -429,6 +421,10 @@ criteria = "safe-to-deploy"
 version = "0.4.15"
 criteria = "safe-to-deploy"
 
+[[exemptions.linux-raw-sys]]
+version = "0.9.4"
+criteria = "safe-to-deploy"
+
 [[exemptions.lock_api]]
 version = "0.4.12"
 criteria = "safe-to-deploy"
@@ -529,10 +525,6 @@ criteria = "safe-to-deploy"
 version = "1.0.15"
 criteria = "safe-to-deploy"
 
-[[exemptions.pin-project-lite]]
-version = "0.2.16"
-criteria = "safe-to-deploy"
-
 [[exemptions.pkg-config]]
 version = "0.3.31"
 criteria = "safe-to-deploy"
@@ -581,14 +573,6 @@ criteria = "safe-to-deploy"
 version = "0.9.0"
 criteria = "safe-to-deploy"
 
-[[exemptions.rand_chacha]]
-version = "0.9.0"
-criteria = "safe-to-deploy"
-
-[[exemptions.rand_core]]
-version = "0.9.3"
-criteria = "safe-to-deploy"
-
 [[exemptions.redox_syscall]]
 version = "0.5.9"
 criteria = "safe-to-deploy"
@@ -611,6 +595,10 @@ criteria = "safe-to-deploy"
 
 [[exemptions.rustix]]
 version = "0.38.44"
+criteria = "safe-to-deploy"
+
+[[exemptions.rustix]]
+version = "1.0.7"
 criteria = "safe-to-deploy"
 
 [[exemptions.ryu]]
@@ -682,7 +670,7 @@ version = "0.1.0"
 criteria = "safe-to-deploy"
 
 [[exemptions.tempfile]]
-version = "3.17.1"
+version = "3.3.0"
 criteria = "safe-to-deploy"
 
 [[exemptions.termcolor]]
@@ -731,10 +719,6 @@ criteria = "safe-to-deploy"
 
 [[exemptions.unicode-ident]]
 version = "1.0.17"
-criteria = "safe-to-deploy"
-
-[[exemptions.utf8parse]]
-version = "0.2.2"
 criteria = "safe-to-deploy"
 
 [[exemptions.uuid]]
@@ -831,7 +815,7 @@ criteria = "safe-to-deploy"
 
 [[exemptions.windows-sys]]
 version = "0.48.0"
-criteria = "safe-to-run"
+criteria = "safe-to-deploy"
 
 [[exemptions.windows-sys]]
 version = "0.52.0"
