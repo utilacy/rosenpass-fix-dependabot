@@ -77,12 +77,21 @@ jobs:
         run: cargo install --root ${{ runner.tool_cache }}/cargo-vet cargo-vet
       - name: Check if last commit was by Dependabot
         run: |
-          git fetch origin ${{ github.head_ref }}
-          git switch ${{ github.head_ref }}
-          COMMIT_AUTHOR=$(gh api repos/${{ github.repository }}/commits/${{ github.sha }} --jq .author.login)
-          DEBUG_OUTPUT=$(gh api repos/${{ github.repository }}/commits/${{ github.sha }})
+          EVENT_NAME="${{ github.event_name }}"
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            echo "This CI run was triggered in the context of a pull request."
+            SHA="${{ github.event.pull_request.head.sha }}"
+          elif [[ "$EVENT_NAME" == "push" ]]; then
+            echo "This CI run was triggered in the context of a push."
+            SHA="${{ github.sha }}"
+          else
+            echo "ERROR: This CI run was not triggered in the context of a pull request or a push. Exiting with error."
+            exit 1
+          fi
+          COMMIT_AUTHOR=$(gh api repos/${{ github.repository }}/commits/$SHA --jq .author.login)
+          DEBUG_OUTPUT=$(gh api repos/${{ github.repository }}/commits/$SHA)
           echo $DEBUG_OUTPUT
-          echo "SHA is ${{ github.sha }}"
+          echo "SHA is $SHA"
           echo "author is $COMMIT_AUTHOR"
           if [[ "$COMMIT_AUTHOR" == "dependabot[bot]" ]]; then
             echo "The last commit was made by dependabot"
